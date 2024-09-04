@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Page</title>
+    <link rel="stylesheet" href="static/styles.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <form id="searchForm">
+            <div class="form-group">
+                <label for="search">Поиск:</label>
+                <input type="text" id="search" name="search" required>
+            </div>
+            <div class="form-group">
+                <label for="category">Категории:</label>
+                <select id="category" name="category" required>
+                    <option value="content">Содержание</option>
+                    <option value="person">Персоналии</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit">Найти</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="static/script.js"></script>
+</body>
+</html>

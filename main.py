@@ -1,5 +1,9 @@
 import pathlib
 import sqlite3
+from flask import Flask, render_template, request, redirect
+
+
+app = Flask(__name__)
 
 
 def load_db():
@@ -36,5 +40,21 @@ CREATE TABLE people (
     conn.close()
 
 
+@app.route("/ginsearch/search", methods=['POST', 'GET'])
+def ginsearch():
+    """search page for gin search patch"""
+    if request.method == 'POST':
+        query = dict(request.form)
+        print(query)
+        return render_template('search-ginsearch-patch.html')
+    else:
+        return render_template('search-ginsearch-patch.html')
+
+@app.route("/")
+def index():
+    return redirect('/ginsearch/search')
+
+
 if __name__ == '__main__':
     load_db()
+    app.run()
