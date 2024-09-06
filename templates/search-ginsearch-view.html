@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Search results</title>
+</head>
+<body>
+    <ul id="navigation">
+    {% for i in data %}
+        <li><a href="http://higeo.ginras.ru/view-record.php?tbl=person&id={{ i[0] }}">{{ i[1] }}</a></li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

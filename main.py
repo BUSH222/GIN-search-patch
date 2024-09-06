@@ -7,6 +7,8 @@ app = Flask(__name__)
 
 
 def load_db():
+    conn = sqlite3.connect("db.db")
+    cur = conn.cursor()
     p = pathlib.Path(__file__).parent.resolve().glob('**/*.sql')
     toread = list(map(str, p))
     if len(toread) > 1:
@@ -26,8 +28,6 @@ def load_db():
         name = item[1][1:-1].strip()
         bio = item[-1]
         data.append([id_, name, bio])
-    conn = sqlite3.connect("db.db")
-    cur = conn.cursor()
     query = """DROP TABLE IF EXISTS people;
 CREATE TABLE people (
     id INTEGER PRIMARY KEY,
@@ -37,22 +37,37 @@ CREATE TABLE people (
     for r in data:
         cur.execute('INSERT INTO people VALUES (?, ?, ?)', r)
     conn.commit()
-    conn.close()
 
 
-@app.route("/ginsearch/search", methods=['POST', 'GET'])
+@app.route("/ginsearch")
 def ginsearch():
     """search page for gin search patch"""
-    if request.method == 'POST':
-        query = dict(request.form)
-        print(query)
-        return render_template('search-ginsearch-patch.html')
+    return render_template('search-ginsearch-patch.html')
+
+
+@app.route("/ginsearch/view")
+def ginsearch_view():
+    """search page for gin search patch"""
+    conn = sqlite3.connect("db.db")
+    cur = conn.cursor()
+    query = dict(request.args)
+    if len(query) == 2:
+        tosearch = str(query['query']).strip()
+        print(tosearch)
+        if query['category'] == 'content':
+            res = cur.execute("SELECT * FROM people WHERE bio LIKE ?", ('%' + tosearch + '%',))
+        elif query['category'] == 'person':
+            res = cur.execute("SELECT * FROM people WHERE name LIKE ?", ('%' + tosearch + '%',))
+        else:
+            return redirect('/ginsearch')  # nothing
+        return render_template('search-ginsearch-view.html', data=res.fetchall())
     else:
-        return render_template('search-ginsearch-patch.html')
+        return redirect('/ginsearch')
+
 
 @app.route("/")
 def index():
-    return redirect('/ginsearch/search')
+    return redirect('/ginsearch')
 
 
 if __name__ == '__main__':
