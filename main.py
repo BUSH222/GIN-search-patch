@@ -39,15 +39,15 @@ CREATE TABLE people (
     conn.commit()
 
 
-@app.route("/ginsearch")
+@app.route("/")
 def ginsearch():
     """search page for gin search patch"""
     return render_template('search-ginsearch-patch.html')
 
 
-@app.route("/ginsearch/view")
+@app.route("/view")
 def ginsearch_view():
-    """search page for gin search patch"""
+    """view records page for gin search patch"""
     conn = sqlite3.connect("db.db")
     cur = conn.cursor()
     query = dict(request.args)
@@ -63,11 +63,6 @@ def ginsearch_view():
         return render_template('search-ginsearch-view.html', data=res.fetchall())
     else:
         return redirect('/ginsearch')
-
-
-@app.route("/")
-def index():
-    return redirect('/ginsearch')
 
 
 if __name__ == '__main__':
