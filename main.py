@@ -66,5 +66,5 @@ def ginsearch_view():
 
 
 if __name__ == '__main__':
-    load_db()
+    # load_db()
     app.run()
