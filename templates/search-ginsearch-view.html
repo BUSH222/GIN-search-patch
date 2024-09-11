@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Page</title>
+    <title>Search Results</title>
     <link rel="stylesheet" href="static/styles-view.css">
-    <title>Document</title>
 </head>
 <body>
     <div class="container">
-        <form id="searchForm">
-            <ul id="navigation">
-                {% for i in data %}
-                    <li><a href="http://higeo.ginras.ru/view-record.php?tbl=person&id={{ i[0] }}">{{ i[1] }}</a></li>
-                {% endfor %}
-                </ul>
-        </form>
+        <ul id="navigation">
+            {% for i in data %}
+                <li><a href="http://higeo.ginras.ru/view-record.php?tbl=person&id={{ i[0] }}">{{ i[1] }}</a></li>
+            {% endfor %}
+        </ul>
+        {% if data|length == 0 %}
+            <label>Поиск не дал результатов</label>
+        {% endif %}
+        
     </div>
 
     <script src="static/script.js"></script>

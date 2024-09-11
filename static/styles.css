@@ -5,8 +5,7 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background: rgb(2,0,36);
-    background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(9,35,121,1) 35%, rgba(0,179,255,1) 100%);
+    background: #f8efec;
 }
 
 .container {
