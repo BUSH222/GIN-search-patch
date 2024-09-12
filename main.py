@@ -27,7 +27,7 @@ def load_db():
         id_ = int(item[0])
         name = item[1][1:-1].strip()
         bio = item[-1]
-        data.append([id_, name, bio])
+        data.append([id_, name.lower(), bio.lower()])
     query = """DROP TABLE IF EXISTS people;
 CREATE TABLE people (
     id INTEGER PRIMARY KEY,
@@ -55,12 +55,17 @@ def ginsearch_view():
         tosearch = str(query['query']).strip()
         print(tosearch)
         if query['category'] == 'content':
-            res = cur.execute("SELECT * FROM people WHERE bio LIKE ?", ('%' + tosearch + '%',))
+            res = cur.execute("SELECT * FROM people WHERE bio LIKE ?", ('%' + tosearch.lower() + '%',))
         elif query['category'] == 'person':
-            res = cur.execute("SELECT * FROM people WHERE name LIKE ?", ('%' + tosearch + '%',))
+            res = cur.execute("SELECT * FROM people WHERE name LIKE ?", ('%' + tosearch.lower() + '%',))
         else:
             return redirect('/ginsearch')  # nothing
-        return render_template('search-ginsearch-view.html', data=res.fetchall())
+        to_process = res.fetchall()
+        out = []
+        for i in range(len(to_process)):
+            print(to_process[i][1].title())
+            out.append([to_process[i][0], to_process[i][1].title(), to_process[i][2]])
+        return render_template('search-ginsearch-view.html', data=out)
     else:
         return redirect('/ginsearch')
 
